@@ -5,6 +5,9 @@
 .Chart text {
     fill: #95a5a6;
 }
+ h1{
+    color:#95a5a6;
+}
 
 .Line {
     transition: all 0.3s ease-out;
@@ -12,7 +15,7 @@
 
 .Line--type-line {
     fill: none;
-    stroke: #9980FA;
+    /* stroke: #9980FA; */
     stroke-width: 3px;
     stroke-linecap: round;
 }
@@ -60,3 +63,10 @@
 .tick line {
     stroke: #dadada;
 }
+.Lollipop
+    .Line--type-line {
+        /* fill: none; */
+        
+        stroke-width: 3px;
+        stroke-linecap: round;
+    }

@@ -1,13 +1,22 @@
-import React from "react"
-import PropTypes from "prop-types"
-import * as d3 from 'd3'
+import React from "react";
+import PropTypes from "prop-types";
+import * as d3 from "d3";
 import { accessorPropsType, callAccessor } from "./utils";
 
-const Bars = ({ data, keyAccessor, xAccessor, yAccessor, widthAccessor, heightAccessor, ...props }) => (
+const Bars = ({
+  data,
+  keyAccessor,
+  xAccessor,
+  yAccessor,
+  widthAccessor,
+  heightAccessor,
+  ...props
+}) => (
   <React.Fragment>
     {data.map((d, i) => (
-      <rect {...props}
-        className="Bars__rect"
+      <rect
+        {...props}
+        className={`Bars__rect ${props.className ? props.className(d) : ""}`}
         key={keyAccessor(d, i)}
         x={callAccessor(xAccessor, d, i)}
         y={callAccessor(yAccessor, d, i)}
@@ -16,7 +25,7 @@ const Bars = ({ data, keyAccessor, xAccessor, yAccessor, widthAccessor, heightAc
       />
     ))}
   </React.Fragment>
-)
+);
 
 Bars.propTypes = {
   data: PropTypes.array,
@@ -25,10 +34,8 @@ Bars.propTypes = {
   yAccessor: accessorPropsType,
   widthAccessor: accessorPropsType,
   heightAccessor: accessorPropsType,
-}
+};
 
-Bars.defaultProps = {
-}
+Bars.defaultProps = {};
 
-export default Bars
-
+export default Bars;

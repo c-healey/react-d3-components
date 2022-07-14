@@ -13,7 +13,7 @@ const BarHorizontal = ({ data, xAccessor, yAccessor, xLabel, Title = "" }) => {
     .filter((d) => xAccessor(d) && xAccessor(d) >= 10)
     .sort((a, b) => +xAccessor(b) - +xAccessor(a));
   dimensions.height = sortedData.length * (barHeight + barPadding);
-  console.log(dimensions.height);
+
   dimensions.boundedHeight =
     dimensions.height - dimensions.marginTop - dimensions.marginBottom;
   const xScale = d3

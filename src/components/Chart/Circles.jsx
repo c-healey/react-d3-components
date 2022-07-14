@@ -10,6 +10,7 @@ const Circles = ({
   yAccessor,
   radius,
   colorAccessor,
+  ...props
 }) => {
   const colorScale = d3
     .scaleLinear()
@@ -24,7 +25,14 @@ const Circles = ({
           cx={xAccessor(d, i)}
           cy={yAccessor(d, i)}
           r={typeof radius == "function" ? radius(d) : radius}
-          fill={colorAccessor ? colorScale(colorAccessor(d, i)) : null}
+          fill={
+            colorAccessor
+              ? colorScale(colorAccessor(d, i))
+              : props.fill
+              ? props.fill
+              : "#69b3a2"
+          }
+          {...props}
         />
       ))}
     </React.Fragment>

@@ -31,11 +31,8 @@ const Timebar = ({ data, xAccessor, yAccessor, label }) => {
     .domain(xScale.domain())
     .value(xAccessor)
     .thresholds(xScale.ticks(numberOfThresholds));
-  console.log("xScale.domain()", xScale.domain());
+
   const bins = binsGenerator(data);
-  // bins.map((bin) =>
-  //   console.log(bin.reduce((a, b) => (a += +b.temperature), 0) / bin.length)
-  // );
 
   // const yAccessor = (d) => d.length;
   const yScale = d3
@@ -43,7 +40,7 @@ const Timebar = ({ data, xAccessor, yAccessor, label }) => {
     .domain([0, d3.max(bins, yAccessor)])
     .range([dimensions.boundedHeight, 0])
     .nice();
-  console.log("yScale", yScale);
+
   const barPadding = 2;
   const xAccessorScaled = (d) => xScale(d.x0) + barPadding;
   const yAccessorScaled = (d) => yScale(yAccessor(d));

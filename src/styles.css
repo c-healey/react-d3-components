@@ -68,3 +68,10 @@ h1 {
 
     z-index:999;
 }
+.Lollipop{
+    text-align:center;
+    min-height: 300px;
+    min-width: 500px;
+    width: calc(100% + 1em);
+    margin-bottom: 2em;
+}

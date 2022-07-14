@@ -1,0 +1,9 @@
+.Header nav{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding :2rem ;
+}
+.Header nav a{
+    text-decoration: none;
+}
