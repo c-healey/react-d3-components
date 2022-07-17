@@ -3,11 +3,10 @@ import * as d3 from "d3";
 
 import { getTimelineData, getScatterData } from "../../utils/dummyData";
 
-import Timeline from "../Timeline";
+import Timeline from "../Timeline/Timeline";
 import ScatterPlot from "../ScatterPlot/ScatterPlot";
-import Histogram from "../Histogram";
+import Histogram from "../Histogram/Histogram";
 
-import "./styles.css";
 const parseDate = d3.timeParse("%m/%d/%Y");
 const dateAccessor = (d: any) => parseDate(d.date);
 const temperatureAccessor = (d: any) => d.temperature;

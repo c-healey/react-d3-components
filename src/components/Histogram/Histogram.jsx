@@ -12,6 +12,7 @@ import {
   useUniqueId,
 } from "../Chart/utils";
 
+import "./Histogram.scss";
 const gradientColors = ["#9980FA", "rgb(226, 222, 243)"];
 const Histogram = ({ data, xAccessor, label }) => {
   const gradientId = useUniqueId("Histogram-gradient");

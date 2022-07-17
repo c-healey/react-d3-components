@@ -1,7 +1,7 @@
 import Humidity from "./Humidity";
 import { useEffect, useState } from "react";
 import * as d3 from "d3";
-import "./styles.css";
+
 function HumidityMain() {
   const [data, setData] = useState();
   const [lineData, setLineData] = useState();
@@ -41,12 +41,14 @@ function HumidityMain() {
   }, []);
   return (
     <>
+      <h1>Humidity</h1>
       {data && lineData && (
         <Humidity
           data={data}
           lineData={lineData}
           xAccessor={xAccessor}
           yAccessor={yAccessor}
+          yLabel="relative humidity"
         />
       )}
     </>

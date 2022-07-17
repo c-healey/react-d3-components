@@ -9,10 +9,11 @@ import Bars from "../Chart/Bars";
 import Text from "../Chart/Text";
 import LineA2B from "../Chart/LineA2B";
 
-const Humidity = ({ data, lineData, xAccessor, yAccessor }) => {
+import "./Humidity.scss";
+const Humidity = ({ data, lineData, xAccessor, yAccessor, yLabel }) => {
   const [ref, dimensions] = useChartDimensions({
     width: window.innerWidth * 0.9,
-    height: 400,
+    // height: 400,
     marginBottom: 40,
     marginLeft: 80,
   });
@@ -76,7 +77,7 @@ const Humidity = ({ data, lineData, xAccessor, yAccessor }) => {
   const seasonOffset = 10;
 
   return (
-    <div className="Humidity Timeline" ref={ref}>
+    <div className="Humidity" ref={ref}>
       <Chart dimensions={dimensions}>
         <defs>
           <Gradient id={gradientId} colors={gradientColors} x2="0" y2="100%" />
@@ -130,7 +131,7 @@ const Humidity = ({ data, lineData, xAccessor, yAccessor }) => {
           className={"season-mean-label"}
         />
         <Text
-          text="relative humidity"
+          text={yLabel}
           y={5.5}
           className="y-axis-label y-axis-label-suffix"
         />

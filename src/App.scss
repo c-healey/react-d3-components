@@ -27,25 +27,6 @@ h1 {
     background: #ecf0f1;
 }
 
-.Timeline {
-    height: 300px;
-    min-width: 500px;
-    width: calc(100% + 1em);
-    margin-bottom: 2em;
-}
-
-.Histogram {
-    height: 500px;
-    flex: 1;
-    min-width: 500px;
-    overflow: hidden;
-}
-
-.ScatterPlot {
-    height: 500px;
-    width: 500px;
-    margin-right: 2em;
-}
 
 .App__charts {
     display: flex;
@@ -54,24 +35,11 @@ h1 {
     margin: -0.5em;
 }
 
-.Timeline,
-.ScatterPlot,
-.Histogram {
-    background: white;
-    padding: 0.6em 1em;
-    margin: 0.5em;
-}
+
 .tooltip{
     height:5rem;
     width:2.5rem;
     background-color:blue;
 
     z-index:999;
-}
-.Lollipop{
-    text-align:center;
-    min-height: 300px;
-    min-width: 500px;
-    width: calc(100% + 1em);
-    margin-bottom: 2em;
 }

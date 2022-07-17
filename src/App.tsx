@@ -6,14 +6,15 @@ import LollipopMain from "./components/Lollipop/LollipopMain";
 import ScatterPlotMain from "./components/ScatterPlot/ScatterPlotMain";
 import WeatherDashboard from "./components/WeatherDashboard/Weatherdashboard";
 
-import "./styles.css";
+import "./App.scss";
 const App = () => {
   return (
     <div className="App">
       <Header />
       <div className="App__charts">
+        {/* <ScatterPlotMain /> */}
         <Routes>
-          <Route path="/" element={<WeatherDashboard />} />
+          <Route path="/" element={<HumidityMain />} />
           <Route path="/weather" element={<WeatherDashboard />} />
           <Route path="/histogram" element={<HistogramMain />} />
           <Route path="/humidity" element={<HumidityMain />} />

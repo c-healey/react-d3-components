@@ -44,7 +44,7 @@ const Timebar = ({ data, xAccessor, yAccessor, label }) => {
   const barPadding = 2;
   const xAccessorScaled = (d) => xScale(d.x0) + barPadding;
   const yAccessorScaled = (d) => yScale(yAccessor(d));
-  const y0AccessorScaled = yScale(yScale.domain()[0]);
+  // const y0AccessorScaled = yScale(yScale.domain()[0]);
   const widthAccessorScaled = (d) => xScale(d.x1) - xScale(d.x0) - barPadding;
   const heightAccessorScaled = (d) =>
     dimensions.boundedHeight - yScale(yAccessor(d));

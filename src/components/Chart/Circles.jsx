@@ -30,7 +30,7 @@ const Circles = ({
               ? colorScale(colorAccessor(d, i))
               : props.fill
               ? props.fill
-              : "#69b3a2"
+              : "#9980FA"
           }
           {...props}
         />

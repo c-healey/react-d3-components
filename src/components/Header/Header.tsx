@@ -4,7 +4,7 @@ const Header = () => {
   return (
     <div className="Header">
       <nav>
-        <Link to="/">
+        <Link to="/weather">
           <h4>WeatherDashboard</h4>
         </Link>{" "}
         <Link to="histogram">

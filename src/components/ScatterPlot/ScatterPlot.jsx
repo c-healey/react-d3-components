@@ -7,6 +7,7 @@ import Circles from "../Chart/Circles";
 import Axis from "../Chart/Axis";
 import { useChartDimensions, accessorPropsType } from "../Chart/utils";
 
+import "./Scatterplot.scss";
 const ScatterPlot = ({
   data,
   xAccessor,

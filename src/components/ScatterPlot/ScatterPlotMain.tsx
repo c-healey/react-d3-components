@@ -16,7 +16,7 @@ const ScatterPlotMain = () => {
   const xAccessor = (d: any) => d.dewPoint;
   const yAccessor = (d: any) => d.humidity;
   const colorAccessor = (d: any) => d.cloudCover;
-  console.log(data);
+
   return (
     <>
       {data && (

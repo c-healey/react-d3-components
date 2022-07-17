@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { csv } from "d3";
 
 import Lollipop from "./Lollipop";
+
 const LollipopMain = () => {
   const [data, setData] = useState();
   const yAccessor = (d: any) => d.Country;
@@ -28,6 +29,17 @@ const LollipopMain = () => {
           Title="Who Sells Guns"
           fill={"#69b3a2"}
           stroke={"#69b3a2"}
+        />
+      )}
+      {data && (
+        <Lollipop
+          data={data}
+          xAccessor={xAccessor}
+          yAccessor={yAccessor}
+          xLabel="Gun Sales (1000)"
+          Title="Who Sells Guns"
+          bars={true}
+          fill={"#69b3a2"}
         />
       )}
     </>

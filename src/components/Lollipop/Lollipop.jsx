@@ -2,22 +2,22 @@ import React from "react";
 import PropTypes from "prop-types";
 import * as d3 from "d3";
 
-import Chart from "../Chart/Chart";
-
 import Axis from "../Chart/Axis";
-
+import Chart from "../Chart/Chart";
+import Circles from "../Chart/Circles";
+import LineA2B from "../Chart/LineA2B";
+import Text from "../Chart/Text";
 import { useChartDimensions, accessorPropsType } from "../Chart/utils";
 
-import Circles from "../Chart/Circles";
-import Text from "../Chart/Text";
-import LineA2B from "../Chart/LineA2B";
-
+import "./Lollipop.scss";
+import Bars from "../Chart/Bars";
 const Lollipop = ({
   data,
   xAccessor,
   yAccessor,
   xLabel,
   Title = "",
+  bars = false,
   ...props
 }) => {
   const [ref, dimensions] = useChartDimensions({
@@ -58,23 +58,38 @@ const Lollipop = ({
             style={{ textAnchor: "end" }}
           />
         ))}
-        <LineA2B
-          data={sortedData}
-          startX={(d) => xScale(0)}
-          endX={(d) => xScale(xAccessor(d))}
-          startY={(d, i) => (i + barPadding / 2) * barHeight}
-          endY={(d, i) => (i + barPadding / 2) * barHeight}
-          stroke={"#95a5a6"}
-        />
-        <Circles
-          data={sortedData}
-          keyAccessor={(d, i) => i}
-          xAccessor={(d, i) => xScale(xAccessor(d))}
-          yAccessor={(d, i) => (i + barPadding / 2) * barHeight}
-          radius={8}
-          stroke={"#95a5a6"}
-          fill={"#69b3a2"}
-        />
+        {!bars && (
+          <>
+            <LineA2B
+              data={sortedData}
+              startX={(d) => xScale(0)}
+              endX={(d) => xScale(xAccessor(d))}
+              startY={(d, i) => (i + barPadding / 2) * barHeight}
+              endY={(d, i) => (i + barPadding / 2) * barHeight}
+              stroke={"#95a5a6"}
+            />
+            <Circles
+              data={sortedData}
+              keyAccessor={(d, i) => i}
+              xAccessor={(d, i) => xScale(xAccessor(d))}
+              yAccessor={(d, i) => (i + barPadding / 2) * barHeight}
+              radius={8}
+              stroke={"#95a5a6"}
+              fill={"#69b3a2"}
+            />
+          </>
+        )}
+        {bars && (
+          <Bars
+            data={sortedData}
+            keyAccessor={(d, i) => i}
+            xAccessor={0}
+            yAccessor={(d, i) => (i + 0.5) * barHeight}
+            widthAccessor={(d, i) => xScale(xAccessor(d))}
+            heightAccessor={barHeight - 1}
+            {...props}
+          />
+        )}
       </Chart>
     </div>
   );
