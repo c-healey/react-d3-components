@@ -7,6 +7,7 @@ import ScatterPlotMain from "./components/ScatterPlot/ScatterPlotMain";
 import WeatherDashboard from "./components/WeatherDashboard/Weatherdashboard";
 
 import "./App.scss";
+import MapMain from "./components/Maps/MapMain";
 const App = () => {
   return (
     <div className="App">
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="/humidity" element={<HumidityMain />} />
           <Route path="/scatter" element={<ScatterPlotMain />} />
           <Route path="/lollipop" element={<LollipopMain />} />
+          <Route path="/map" element={<MapMain />} />
         </Routes>
       </div>
     </div>

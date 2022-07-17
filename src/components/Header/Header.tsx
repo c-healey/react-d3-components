@@ -17,7 +17,10 @@ const Header = () => {
           <h4>ScatterPlot</h4>
         </Link>
         <Link to="lollipop">
-          <h4>Lollipop</h4>
+          <h4>Horizontal</h4>
+        </Link>
+        <Link to="map">
+          <h4>Map</h4>
         </Link>
       </nav>
     </div>
