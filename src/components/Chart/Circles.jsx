@@ -10,9 +10,10 @@ const Circles = ({
   yAccessor,
   radius,
   colorAccessor,
+  colorScale,
   ...props
 }) => {
-  const colorScale = d3
+  const colorScaleDefault = d3
     .scaleLinear()
     .domain(d3.extent(data, colorAccessor))
     .range(["skyblue", "darkslategrey"]);
@@ -26,8 +27,10 @@ const Circles = ({
           cy={yAccessor(d, i)}
           r={typeof radius == "function" ? radius(d) : radius}
           fill={
-            colorAccessor
-              ? colorScale(colorAccessor(d, i))
+            colorScale
+              ? colorScale(d)
+              : colorAccessor
+              ? colorScaleDefault(colorAccessor(d, i))
               : props.fill
               ? props.fill
               : "#9980FA"

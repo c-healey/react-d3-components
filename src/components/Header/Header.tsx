@@ -22,6 +22,9 @@ const Header = () => {
         <Link to="map">
           <h4>Map</h4>
         </Link>
+        <Link to="marginal">
+          <h4>Marginal</h4>
+        </Link>
       </nav>
     </div>
   );

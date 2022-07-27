@@ -1,48 +1,103 @@
 import * as d3 from "d3";
+import React from "react";
 import { GradientBasic } from "./Gradient";
 import { useUniqueId } from "./utils";
 
-const Legend = ({ title, subTitle, dimensions, colorScale, maxChange }) => {
+const Legend = ({
+  title,
+  subTitle,
+  dimensions,
+  colorScale,
+  tickValues,
+  colors,
+  maxChange,
+  children,
+  ...props
+}) => {
   const gradientId = useUniqueId("legend-gradient");
-  const legendHeight = "16";
-  const legendWidth = "120";
+  const legendHeight = dimensions.legendHeight || "16";
+  const legendWidth = dimensions.legendWidth || "120";
+  const formatTick = d3.timeFormat("%b");
+  let legendTickScale;
+  if (tickValues && colorScale) {
+    legendTickScale = d3
+      .scaleLinear()
+      .domain(colorScale.domain())
+      .range([0, dimensions.legendWidth]);
+  }
+
   return (
     <g
+      className="Legend"
       transform={`translate(120, ${
         dimensions.width < 800
           ? dimensions.boundedHeight - 30
           : dimensions.boundedHeight * 0.5
       })`}
     >
-      <text y={-23} className="legend-title">
-        {title}
-      </text>
-      <text y={-9} className="legend-byline">
-        {subTitle}
-      </text>
+      {title && (
+        <text y={-23} className="legend-title">
+          {title}
+        </text>
+      )}
+      {subTitle && (
+        <text y={-9} className="legend-byline">
+          {subTitle}
+        </text>
+      )}
       <defs>
         <GradientBasic
           id={gradientId}
-          colors={["indigo", "white", "darkgreen"]}
+          colors={colors || ["indigo", "white", "darkgreen"]}
         />
       </defs>
       <rect
-        x={"-60"}
+        // x={"-60"}
         height={legendHeight}
         width={legendWidth}
         style={{ fill: `url(#${gradientId})` }}
+        {...props}
       ></rect>
-      <text
-        className="legend-value"
-        x={legendWidth / 2 + 10}
-        y={legendHeight / 2}
-      >{`${d3.format(".1f")(maxChange)}%`}</text>
-      <text
-        className="legend-value"
-        x={-legendWidth / 2 - 10}
-        y={legendHeight / 2}
-        style={{ textAnchor: "end" }}
-      >{`${d3.format(".1f")(-maxChange)}%`}</text>
+      {tickValues && colorScale && (
+        <React.Fragment>
+          {tickValues.map((tick, i) => (
+            <text
+              key={`legend-tick-value-${i}`}
+              className="legend-value"
+              x={legendTickScale(tick)}
+              y={-6}
+            >
+              {/* {d3.timeFormat("%b")} */}
+              {formatTick(tick)}
+            </text>
+          ))}
+          {tickValues.map((tick, i) => (
+            <line
+              key={`legend-tick-line-${i}`}
+              className="legend-tick"
+              x1={legendTickScale(tick)}
+              x2={legendTickScale(tick)}
+              y1={6}
+            />
+          ))}
+        </React.Fragment>
+      )}
+      {maxChange && (
+        <>
+          <text
+            className="legend-value"
+            x={legendWidth / 2 + 10}
+            y={legendHeight / 2}
+          >{`${d3.format(".1f")(maxChange)}%`}</text>
+          <text
+            className="legend-value"
+            x={-legendWidth / 2 - 10}
+            y={legendHeight / 2}
+            style={{ textAnchor: "end" }}
+          >{`${d3.format(".1f")(-maxChange)}%`}</text>
+        </>
+      )}
+      {children && children}
     </g>
   );
 };
