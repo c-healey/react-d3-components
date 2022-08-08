@@ -8,7 +8,8 @@ const Circles = ({
   keyAccessor,
   xAccessor,
   yAccessor,
-  radius,
+  radius = 5,
+  opacity = 1,
   colorAccessor,
   colorScale,
   ...props
@@ -25,7 +26,7 @@ const Circles = ({
           key={keyAccessor(d, i)}
           cx={xAccessor(d, i)}
           cy={yAccessor(d, i)}
-          r={typeof radius == "function" ? radius(d) : radius}
+          r={typeof radius === "function" ? radius(d) : radius}
           fill={
             colorScale
               ? colorScale(d)
@@ -35,6 +36,7 @@ const Circles = ({
               ? props.fill
               : "#9980FA"
           }
+          opacity={typeof opacity === "function" ? opacity(d) : opacity}
           {...props}
         />
       ))}

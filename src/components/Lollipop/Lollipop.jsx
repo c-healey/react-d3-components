@@ -40,7 +40,7 @@ const Lollipop = ({
     .range([0, dimensions.boundedWidth]);
 
   return (
-    <div className="Lollipop" ref={ref}>
+    <div className={`Lollipop ${bars ? "Bar" : ""}`} ref={ref}>
       {Title.length !== 0 && <h1>{Title}</h1>}
       <Chart dimensions={dimensions}>
         <Axis
@@ -90,6 +90,19 @@ const Lollipop = ({
             {...props}
           />
         )}
+
+        {sortedData.map((d, i) => (
+          <Text
+            className="annotation"
+            text={xAccessor(d)}
+            x={xScale(xAccessor(d)) + (i === 0 ? -12 : 12)}
+            y={
+              (i + barPadding / 2) * barHeight +
+              (i === 0 && !bars ? -barHeight / 4 : bars ? -2 : 5)
+            }
+            style={{ "text-anchor": i === 0 ? "end" : "start" }}
+          />
+        ))}
       </Chart>
     </div>
   );

@@ -50,11 +50,13 @@ const Timeline = ({ data, xAccessor, yAccessor, label }) => {
           yAccessor={yAccessorScaled}
           y0Accessor={y0AccessorScaled}
           style={{ fill: `url(#${gradientId})` }}
+          className="Line Line--type-area"
         />
         <Line
           data={data}
           xAccessor={xAccessorScaled}
           yAccessor={yAccessorScaled}
+          className="Line Line--type-line"
         />
       </Chart>
     </div>

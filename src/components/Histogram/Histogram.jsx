@@ -13,6 +13,8 @@ import {
 } from "../Chart/utils";
 
 import "./Histogram.scss";
+import LineA2B from "../Chart/LineA2B";
+import Text from "../Chart/Text";
 const gradientColors = ["#9980FA", "rgb(226, 222, 243)"];
 const Histogram = ({ data, xAccessor, label }) => {
   const gradientId = useUniqueId("Histogram-gradient");
@@ -52,23 +54,7 @@ const Histogram = ({ data, xAccessor, label }) => {
     dimensions.boundedHeight - yScale(yAccessor(d));
   const keyAccessor = (d, i) => i;
 
-  // const mean = d3.mean(data, xAccessor);
-  // console.log(mean);
-  // const meanData = [
-  //   { x: mean, y: -15 },
-  //   { x: mean, y: dimensions.boundedHeight },
-  // ];
-  // const meanXAccessor = (d) => d.x;
-  // const meanYAccessor = (d) => d.y;
-  // const meanXAccessorScaled = d3
-  //   .scaleLinear()
-  //   .domain(d3.extent(meanData, meanXAccessor))
-  //   .range([0, dimensions.boundedWidth]);
-  // const meanYAccessorScaled = d3
-  //   .scaleLinear()
-  //   .domain(d3.extent(meanData, meanYAccessor))
-  //   .range([dimensions.boundedHeight, 0])
-  //   .nice();
+  const meanX = d3.mean(data, xAccessor);
 
   return (
     <div className="Histogram" ref={ref}>
@@ -98,11 +84,19 @@ const Histogram = ({ data, xAccessor, label }) => {
           style={{ fill: `url(#${gradientId})` }}
         />
         {/* mean */}
-        {/* <Line
-          data={meanData}
-          xAccessor={meanXAccessorScaled}
-          yAccessor={meanYAccessorScaled}
-        /> */}
+        <LineA2B
+          className={"season-mean"}
+          data={[1]}
+          startX={(d) => xScale(meanX)}
+          endX={(d) => xScale(meanX)}
+          endY={(d) => dimensions.boundedHeight}
+          startY={(d) => 5}
+        />
+        <Text
+          text={`mean ${d3.format(".0f")(meanX)}`}
+          x={xScale(meanX)}
+          y={0}
+        />
       </Chart>
     </div>
   );

@@ -23,9 +23,9 @@ const Line = ({
 
   return (
     <path
-      {...props}
-      className={`Line Line--type-${type}`}
+      // className={`Line Line--type-${type}`}
       d={lineGenerator(data)}
+      {...props}
     />
   );
 };

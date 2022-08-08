@@ -1,4 +1,5 @@
 import * as d3 from "d3";
+import { useState } from "react";
 import Axis from "../Chart/Axis";
 import Chart from "../Chart/Chart";
 import Circles from "../Chart/Circles";
@@ -26,6 +27,12 @@ const MarginalHistogram = ({
     legendWidth: 250,
     legendHeight: 26,
   });
+  const [minDate, setMinDate] = useState(new Date("1/1/2000"));
+  const [maxDate, setMaxDate] = useState(new Date("12/31/2000"));
+  const [hoverTopHistogramBins, setHoverTopHistogramBins] = useState([]);
+  const [hoverRightHistogramBins, setHoverRightHistogramBins] = useState([]);
+  const [hoveredDate, setHoveredDate] = useState();
+  const [legendHovered, setLegendHovered] = useState(false);
   const temperaturesExtent = d3.extent([
     ...data.map(xAccessor),
     ...data.map(yAccessor),
@@ -172,43 +179,83 @@ const MarginalHistogram = ({
     tooltip.style("opacity", 1);
   }
   const onVoronoiMouseLeave = () => {
-    console.log("varonoi leave");
     d3.select("#hover-el-group").style("opacity", 0);
     d3.select("#tooltip").style("opacity", 0);
   };
-  const onLegendMouseMove = (e) => {
-    console.log("onLegendMouseMove");
-    const [x] = d3.pointer(e);
-    const legendHighlightBarWidth = dimensions.legendWidth * 0.05;
+  const isDayWithinRange = (d) => {
+    //   don't care about the year
+    //     const [minDate, setMinDate] = useState(new Date("7/31/2000"));
+    //   const [maxDate, setMaxDate] = useState(new Date("10/31/2000"));
+    const date = new Date(d.date);
+    const month = date.getMonth();
+    const day = date.getDate();
+    const minMonth = minDate.getMonth();
+    const maxMonth = maxDate.getMonth();
+    const minDay = minDate.getDate();
+    const maxDay = maxDate.getDate();
 
+    let result = false;
+
+    if (month <= maxMonth && month >= minMonth) {
+      //  its in the month range,
+      //  is it in the day range check the outlying months
+      result =
+        month === minMonth && day >= minDay
+          ? true
+          : month > minMonth && month < maxMonth
+          ? true
+          : month === maxMonth && day <= maxDay
+          ? true
+          : false;
+    }
+    return result;
+  };
+  const formatLegendDate = d3.timeFormat("%b %d");
+  const legendHighlightBarWidth = dimensions.legendWidth * 0.05;
+
+  const onLegendMouseMove = (e) => {
+    //  get the mouse position
+    //  and dates based on mouse position
+    const [x] = d3.pointer(e);
     const minDateToHighlight = new Date(
       legendTickScale.invert(x - legendHighlightBarWidth)
     );
     const maxDateToHighlight = new Date(
       legendTickScale.invert(x + legendHighlightBarWidth)
     );
+
     const barX = d3.median([
       0,
       x - legendHighlightBarWidth / 2,
       dimensions.legendWidth - legendHighlightBarWidth,
     ]);
-    d3.select(".legend-highlight-group")
-      .style("opacity", 1)
-      .style("transform", `translateX(${barX}px)`);
-    const formatLegendDate = d3.timeFormat("%b %d");
-    d3.select(".legend-highlight-text").text(
-      [
-        formatLegendDate(minDateToHighlight),
-        formatLegendDate(maxDateToHighlight),
-      ].join(" - ")
+
+    //  select elements to adjust attr dependant on mouse position
+    d3.select(".legend-highlight-group").style(
+      "transform",
+      `translateX(${barX}px)`
     );
+    //  select eleneds barried in legend not exposed outside components
+
     d3.selectAll(".legend-value").style("opacity", 0);
     d3.selectAll(".legend-tick").style("opacity", 0);
-    // legendValues.style("opacity", 0);
-    // legendValueTicks.style("opacity", 0);
+
+    //  set state
+    setLegendHovered(true);
+    setMinDate(minDateToHighlight);
+    setMaxDate(maxDateToHighlight);
+
+    const hoveredDates = data.filter(isDayWithinRange);
+    setHoveredDate(d3.isoParse(legendTickScale.invert(x)));
+    setHoverTopHistogramBins(topHistogramGenerator(hoveredDates));
+    setHoverRightHistogramBins(rightHistogramGenerator(hoveredDates));
   };
-  const onLegendMouseLeave = () => {
-    console.log("onLegendMouseLeave");
+  const onLegendMouseLeave = (e) => {
+    setMinDate(new Date("1/1/2000"));
+    setMaxDate(new Date("12/31/2000"));
+    setLegendHovered(false);
+    d3.selectAll(".legend-value").style("opacity", 1);
+    d3.selectAll(".legend-tick").style("opacity", 1);
   };
   return (
     <div className="marginal-histogram chart500x50" ref={ref}>
@@ -243,7 +290,17 @@ const MarginalHistogram = ({
             interpolation={d3.curveBasis}
             className="histogram-area"
           />
-          <path></path>
+          <Line
+            type={"area"}
+            data={hoverTopHistogramBins}
+            xAccessor={(d) => xScale((d.x0 + d.x1) / 2)}
+            yAccessor={(d) => topHistogramYScale(d.length)}
+            y0Accessor={dimensions.histogramHeight}
+            interpolation={d3.curveBasis}
+            fill={colorScale(hoveredDate)}
+            stroke={"white"}
+            opacity={legendHovered ? 1 : 0}
+          />
         </g>
         <g
           className="right-histogram"
@@ -256,13 +313,23 @@ const MarginalHistogram = ({
           <Line
             type={"area"}
             data={rightHistogramBins}
-            xAccessor={(d) => xScale((d.x0 + d.x1) / 2)}
+            xAccessor={(d) => yScale((d.x0 + d.x1) / 2)}
             yAccessor={(d) => rightHistogramYScale(d.length)}
             y0Accessor={dimensions.histogramHeight}
             interpolation={d3.curveBasis}
             className="histogram-area"
           />
-          <path></path>
+          <Line
+            type={"area"}
+            data={hoverRightHistogramBins}
+            xAccessor={(d) => yScale((d.x0 + d.x1) / 2)}
+            yAccessor={(d) => topHistogramYScale(d.length)}
+            y0Accessor={dimensions.histogramHeight}
+            interpolation={d3.curveBasis}
+            fill={colorScale(hoveredDate)}
+            stroke={"white"}
+            opacity={legendHovered ? 1 : 0}
+          />
         </g>
         <Axis
           dimensions={dimensions}
@@ -281,8 +348,9 @@ const MarginalHistogram = ({
           keyAccessor={keyAccessor}
           xAccessor={xAccessorScaled}
           yAccessor={yAccessorScaled}
-          //   colorAccessor={colorAccessor}
+          opacity={(d) => (isDayWithinRange(d) ? 1 : 0.2)}
           colorScale={(d) => colorScale(colorAccessor(d))}
+          radius={(d) => (isDayWithinRange(d) ? 4 : 2)}
         />
 
         {data.map((d, i) => (
@@ -309,7 +377,7 @@ const MarginalHistogram = ({
           onMouseMove={(e) => onLegendMouseMove(e)}
           onMouseLeave={(e) => onLegendMouseLeave(e)}
         >
-          <g className="legend-highlight-group">
+          <g className="legend-highlight-group" opacity={legendHovered ? 1 : 0}>
             <rect
               className="legend-highlight-bar"
               width={dimensions.legendWidth * 0.05}
@@ -319,7 +387,11 @@ const MarginalHistogram = ({
               className="legend-highlight-text"
               x={(dimensions.legendWidth * 0.05) / 2}
               y={-6}
-            />
+            >
+              {[formatLegendDate(minDate), formatLegendDate(maxDate)].join(
+                " - "
+              )}
+            </text>
           </g>
         </Legend>
       </Chart>

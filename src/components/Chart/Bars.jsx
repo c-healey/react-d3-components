@@ -16,7 +16,7 @@ const Bars = ({
     {data.map((d, i) => (
       <rect
         {...props}
-        className={`Bars__rect ${props.className ? props.className(d) : ""}`}
+        className={`Bars__rect ${props.className ? props.className : ""}`}
         key={keyAccessor(d, i)}
         x={callAccessor(xAccessor, d, i)}
         y={callAccessor(yAccessor, d, i)}

@@ -10,6 +10,7 @@ import Text from "../Chart/Text";
 import LineA2B from "../Chart/LineA2B";
 
 import "./Humidity.scss";
+import Line from "../Chart/Line";
 const Humidity = ({ data, lineData, xAccessor, yAccessor, yLabel }) => {
   const [ref, dimensions] = useChartDimensions({
     width: window.innerWidth * 0.9,
@@ -94,12 +95,14 @@ const Humidity = ({ data, lineData, xAccessor, yAccessor, yLabel }) => {
             className={"season-label"}
           />
         ))}
-        <path className="line" d={lineGenerator(lineData)} />
-        {/* <path
-          className="area"
-          d={areaGenerator(lineData)}
-          style={{ fill: ` url(#${gradientId})` }}
-        /> */}
+        <Line
+          data={lineData}
+          xAccessor={(d) => xScale(xAccessor(d))}
+          yAccessor={(d) => yScale(yAccessor(d))}
+          interpolation={d3.curveBasis}
+          className="Line Line--type-line line"
+        />
+
         <Circles
           data={data}
           keyAccessor={keyAccessor}
