@@ -36,7 +36,7 @@ const Map = ({
     .fitWidth(dimensions.boundedWidth, sphere);
 
   const pathGenerator = d3.geoPath(projection);
-  const [[x0, y0], [x1, y1]] = pathGenerator.bounds(sphere);
+  const [[,], [, y1]] = pathGenerator.bounds(sphere);
 
   dimensions.boundedHeight = y1;
   dimensions.height =

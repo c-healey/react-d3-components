@@ -37,12 +37,6 @@ const Humidity = ({ data, lineData, xAccessor, yAccessor, yLabel }) => {
     .domain(d3.extent(data, xAccessor))
     .range([0, dimensions.boundedWidth]);
 
-  const lineGenerator = d3
-    .area()
-    .x((d) => xScale(xAccessor(d)))
-    .y((d) => yScale(yAccessor(d)))
-    .curve(d3.curveBasis);
-
   const keyAccessor = (d, i) => i;
 
   //   Seasonal rects

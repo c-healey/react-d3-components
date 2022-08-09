@@ -1,10 +1,7 @@
-import { useEffect, useState } from "react";
-import * as d3 from "d3";
-// import "./styles.css";
 import Histogram from "./Histogram";
 
-const HistogramMain = () => {
-  const [data, setData] = useState<any>();
+const HistogramMain: React.FC<{ data: Array<any> }> = ({ data }) => {
+  // const [data, setData] = useState<any>();
   const metrics = [
     "temperatureMin",
     "temperatureMax",
@@ -18,14 +15,6 @@ const HistogramMain = () => {
     "visibility",
     "moonPhase",
   ];
-  const getData = async () => {
-    const result = await d3.json("./my_weather_data.json");
-
-    setData(result);
-  };
-  useEffect(() => {
-    getData();
-  }, []);
 
   return (
     <>

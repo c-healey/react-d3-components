@@ -4,7 +4,7 @@ import * as d3 from "d3";
 import Map from "./Map";
 
 function MapMain() {
-  const [countryMetricData, setCountryMetricData] = useState({});
+  const [countryMetricData, setCountryMetricData] = useState();
   const countryNameAccessor = (d) => d.properties["NAME"];
   const countryIdAccessor = (d) => d.properties["ADM0_A3_IS"];
   const metric = "Population growth (annual %)";
@@ -40,14 +40,16 @@ function MapMain() {
   return (
     <div className="App">
       <div className="App__charts">
-        <Map
-          metricDataByCountry={countryMetricData}
-          countryNameAccessor={countryNameAccessor}
-          countryIdAccessor={countryIdAccessor}
-          metric={metric}
-          subTitle={subTitle}
-          toolTipText={toolTipText}
-        ></Map>
+        {countryMetricData && (
+          <Map
+            metricDataByCountry={countryMetricData}
+            countryNameAccessor={countryNameAccessor}
+            countryIdAccessor={countryIdAccessor}
+            metric={metric}
+            subTitle={subTitle}
+            toolTipText={toolTipText}
+          ></Map>
+        )}
       </div>
     </div>
   );

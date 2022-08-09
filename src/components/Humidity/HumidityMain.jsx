@@ -2,8 +2,8 @@ import Humidity from "./Humidity";
 import { useEffect, useState } from "react";
 import * as d3 from "d3";
 
-function HumidityMain() {
-  const [data, setData] = useState();
+function HumidityMain({ data }) {
+  // const [data, setData] = useState();
   const [lineData, setLineData] = useState();
   const dateParser = d3.timeParse("%Y-%m-%d");
   const xAccessor = (d) => dateParser(d.date);
@@ -26,10 +26,10 @@ function HumidityMain() {
     });
   };
   const getData = async () => {
-    const result = await d3.json("./my_weather_data.json");
+    // const result = await d3.json("./my_weather_data.json");
 
-    setData(result);
-    const dataset = result.sort((a, b) => xAccessor(a) - xAccessor(b));
+    // setData(result);
+    const dataset = data.sort((a, b) => xAccessor(a) - xAccessor(b));
     const downsampledData = downsampleData(dataset, xAccessor, yAccessor);
 
     setLineData(downsampledData);
@@ -38,7 +38,7 @@ function HumidityMain() {
   useEffect(() => {
     getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [data]);
   return (
     <>
       <h1>Humidity</h1>

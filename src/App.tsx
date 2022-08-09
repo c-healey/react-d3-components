@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 const App = () => {
   const [data, setData] = useState<any>();
   const getData = async () => {
-    const result = await json("/my_weather_data.json");
+    const result = await json("./my_weather_data.json");
     setData(result);
   };
   useEffect(() => {
@@ -26,11 +26,23 @@ const App = () => {
       <div className="App__charts">
         {/* <ScatterPlotMain /> */}
         <Routes>
-          <Route path="/" element={<HumidityMain />} />
+          <Route
+            path="/"
+            element={<HumidityMain data={data ? data : undefined} />}
+          />
           <Route path="/weather" element={<WeatherDashboard />} />
-          <Route path="/histogram" element={<HistogramMain />} />
-          <Route path="/humidity" element={<HumidityMain />} />
-          <Route path="/scatter" element={<ScatterPlotMain />} />
+          <Route
+            path="/histogram"
+            element={<HistogramMain data={data ? data : undefined} />}
+          />
+          <Route
+            path="/humidity"
+            element={<HumidityMain data={data ? data : undefined} />}
+          />
+          <Route
+            path="/scatter"
+            element={<ScatterPlotMain data={data ? data : undefined} />}
+          />
           <Route path="/lollipop" element={<LollipopMain />} />
           <Route path="/map" element={<MapMain />} />
           <Route

@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react";
-import * as d3 from "d3";
+// import { useEffect, useState } from "react";
+// import * as d3 from "d3";
 
 // import scatterplot from "./d3/scatterplot";
 import ScatterPlot from "./ScatterPlot";
 // import "./styles.css";
-const ScatterPlotMain = () => {
-  const [data, setData] = useState<any>();
-  const getData = async () => {
-    const result = await d3.json("/my_weather_data.json");
-    setData(result);
-  };
-  useEffect(() => {
-    getData();
-  }, []);
+const ScatterPlotMain: React.FC<{ data: Array<any> }> = ({ data }) => {
+  // const [data, setData] = useState<any>();
+  // const getData = async () => {
+  //   const result = await d3.json("./my_weather_data.json");
+  //   setData(result);
+  // };
+  // useEffect(() => {
+  //   getData();
+  // }, []);
   const xAccessor = (d: any) => d.dewPoint;
   const yAccessor = (d: any) => d.humidity;
   const colorAccessor = (d: any) => d.cloudCover;
