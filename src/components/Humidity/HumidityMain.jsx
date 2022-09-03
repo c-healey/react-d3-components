@@ -25,18 +25,18 @@ function HumidityMain({ data }) {
       };
     });
   };
-  const getData = async () => {
+  const getData = () => {
     // const result = await d3.json("./my_weather_data.json");
 
     // setData(result);
-    const dataset = data.sort((a, b) => xAccessor(a) - xAccessor(b));
+    const dataset = data?.sort((a, b) => xAccessor(a) - xAccessor(b));
     const downsampledData = downsampleData(dataset, xAccessor, yAccessor);
 
     setLineData(downsampledData);
   };
 
   useEffect(() => {
-    getData();
+    if (data) getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
   return (

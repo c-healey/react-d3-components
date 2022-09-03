@@ -93,6 +93,7 @@ const Lollipop = ({
 
         {sortedData.map((d, i) => (
           <Text
+            key={i}
             className="annotation"
             text={xAccessor(d)}
             x={xScale(xAccessor(d)) + (i === 0 ? -12 : 12)}
@@ -100,7 +101,7 @@ const Lollipop = ({
               (i + barPadding / 2) * barHeight +
               (i === 0 && !bars ? -barHeight / 4 : bars ? -2 : 5)
             }
-            style={{ "text-anchor": i === 0 ? "end" : "start" }}
+            style={{ textAnchor: i === 0 ? "end" : "start" }}
           />
         ))}
       </Chart>

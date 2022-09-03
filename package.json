@@ -1,6 +1,5 @@
 {
   "name": "react-chart-components",
-  "homepage": "https://c-healey.github.io/react-d3-components",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -19,7 +18,7 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "resize-observer-polyfill": "^1.5.1",
-    "sass": "^1.53.0",
+    "sass": "^1.54.3",
     "typescript": "^4.7.4",
     "web-vitals": "^2.1.4"
   },

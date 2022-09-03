@@ -11,10 +11,11 @@ import "./App.scss";
 import MapMain from "./components/Maps/MapMain";
 import MarginalHistogramMain from "./components/MarginalHistogram/MarginalHistogramMain";
 import { useEffect, useState } from "react";
+import RadarWeatherMain from "./components/RadarWeather/RadarWeatherMain";
 const App = () => {
   const [data, setData] = useState<any>();
   const getData = async () => {
-    const result = await json("./my_weather_data.json");
+    const result = await json("/my_weather_data.json");
     setData(result);
   };
   useEffect(() => {
@@ -39,16 +40,17 @@ const App = () => {
             path="/humidity"
             element={<HumidityMain data={data ? data : undefined} />}
           />
+          <Route path="/radar" element={<RadarWeatherMain data={data} />} />
+          <Route
+            path="/marginal"
+            element={<MarginalHistogramMain data={data} />}
+          />
           <Route
             path="/scatter"
             element={<ScatterPlotMain data={data ? data : undefined} />}
           />
           <Route path="/lollipop" element={<LollipopMain />} />
           <Route path="/map" element={<MapMain />} />
-          <Route
-            path="/marginal"
-            element={<MarginalHistogramMain data={data} />}
-          />
         </Routes>
       </div>
     </div>
